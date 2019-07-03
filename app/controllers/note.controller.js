@@ -39,6 +39,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.testNode = (req, res) => {
+  console.log("Okkkkkk");
     res.send("Okkkkkk");
 };
 
