@@ -11,7 +11,7 @@ exports.create = (req, res) => {
 
     // Create a Note
     const note = new Note({
-        title: req.body.title || "Untitled Note", 
+        title: req.body.title || "Untitled Note",
         content: req.body.content
     });
 
@@ -38,6 +38,10 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.testNode = (req, res) => {
+    res.send("Okkkkkk");
+};
+
 // Find a single note with a noteId
 exports.findOne = (req, res) => {
     Note.findById(req.params.noteId)
@@ -45,14 +49,14 @@ exports.findOne = (req, res) => {
         if(!note) {
             return res.status(404).send({
                 message: "Note not found with id " + req.params.noteId
-            });            
+            });
         }
         res.send(note);
     }).catch(err => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
                 message: "Note not found with id " + req.params.noteId
-            });                
+            });
         }
         return res.status(500).send({
             message: "Error retrieving note with id " + req.params.noteId
@@ -85,7 +89,7 @@ exports.update = (req, res) => {
         if(err.kind === 'ObjectId') {
             return res.status(404).send({
                 message: "Note not found with id " + req.params.noteId
-            });                
+            });
         }
         return res.status(500).send({
             message: "Error updating note with id " + req.params.noteId
@@ -107,7 +111,7 @@ exports.delete = (req, res) => {
         if(err.kind === 'ObjectId' || err.name === 'NotFound') {
             return res.status(404).send({
                 message: "Note not found with id " + req.params.noteId
-            });                
+            });
         }
         return res.status(500).send({
             message: "Could not delete note with id " + req.params.noteId
