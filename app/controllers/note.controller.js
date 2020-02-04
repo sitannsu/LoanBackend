@@ -1,5 +1,9 @@
 const Note = require('../models/note.model.js');
 
+var nodemailer = require('nodemailer');
+
+
+
 // Create and Save a new Note
 exports.create = (req, res) => {
     // Validate request
@@ -14,16 +18,34 @@ exports.create = (req, res) => {
         title: req.body.title || "Untitled Note",
         content: req.body.content
     });
+    console.log(req.body.content);
 
     // Save Note in the database
-    note.save()
-    .then(data => {
-        res.send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || "Some error occurred while creating the Note."
-        });
-    });
+
+
+    var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'loanokpleaseindia',
+    pass: 'Abhisheks1'
+  }
+});
+
+var mailOptions = {
+  from: 'loanokpleaseindia@gmail.com',
+  to: 'abhisheksrivastavadir@gmail.com',
+  subject: 'One form submitted succefully',
+  text: req.body.fullInfo
+};
+
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    res.send('Email sent: ');
+    console.log('Email sent: ' + info.response);
+  }
+});
 };
 
 // Retrieve and return all notes from the database.
